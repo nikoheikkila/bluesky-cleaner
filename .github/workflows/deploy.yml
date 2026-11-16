@@ -28,7 +28,8 @@ jobs:
       - name: Install tools with Mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          version: 2026.10.25
+          # mise.lock is lockfile format v4, which needs mise 2026.11.1 or later.
+          version: 2026.11.4
 
       - name: Install dependencies
         run: task install
@@ -69,7 +70,7 @@ jobs:
       - name: Install tools with Mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          version: 2026.10.25
+          version: 2026.11.4
           # This job holds the Cloudflare API token, so it never restores a cache.
           cache: false
 
