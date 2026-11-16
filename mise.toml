@@ -1,0 +1,11 @@
+[settings]
+# Refuse to install anything that mise.lock does not pin; Renovate refreshes it with each update.
+locked = true
+# CI runners and developer Macs, Intel and Apple Silicon, plus Linux arm64.
+lockfile_platforms = ["linux-x64", "linux-arm64", "macos-x64", "macos-arm64"]
+
+[tools]
+# wrangler, vitest and stryker start with `#!/usr/bin/env node`, so `bunx` runs them on Node.js.
+node = "26.13.1"
+bun = "1.4.4"
+task = "3.54.0"

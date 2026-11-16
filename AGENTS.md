@@ -18,10 +18,15 @@ deletes it. Its reply settings and quote settings are still deleted by the age r
 
 ## Commands
 
-Bun is the package manager; [go-task](https://taskfile.dev) (`brew install go-task`) is the script
-runner. Tasks live in `Taskfile.yml`; `package.json` keeps only the `prepare` lifecycle hook.
+Bun is the package manager; [go-task](https://taskfile.dev) is the script runner. Tasks live in
+`Taskfile.yml`; `package.json` keeps only the `prepare` lifecycle hook.
+
+Tool versions (Node.js, Bun, go-task) are pinned in `mise.toml`, with checksums in `mise.lock`: run
+`mise install` locally; CI installs them with `jdx/mise-action`. After changing `mise.toml`, run
+`mise lock` and keep both files in the same commit.
 
 ```bash
+mise install                                # installs the pinned toolchain
 task install                                # installs packages with Bun
 task test                                   # default suite (Vitest inside workerd via @cloudflare/vitest-plugin)
 task test -- test/select.test.ts            # one file
@@ -40,7 +45,8 @@ task logs:json                              # same as JSON lines, for agents and
 task logs:errors                            # only failed invocations
 ```
 
-CI (`.github/workflows/deploy.yml`) runs on every push to `main`: the `test` job runs `task lint`,
+CI (`.github/workflows/deploy.yml`) runs on every push to `main`. Both jobs install the toolchain
+with `jdx/mise-action` (`deploy` without its cache). The `test` job runs `task lint`,
 `task typecheck`, `task test` and `task mutation:incremental` (with
 `reports/stryker-incremental.json` cached), then the `deploy` job deploys with
 `cloudflare/wrangler-action@v4` (reusing the locked `wrangler` devDependency) using the

@@ -46,7 +46,10 @@ profile read stops the run before anything is deleted.
 
 ## Requirements
 
-- [Bun](https://bun.sh) (package manager) and [go-task](https://taskfile.dev)
+- [Mise](https://mise.jdx.dev),
+  [activated in your shell](https://mise.jdx.dev/getting-started.html#activate-mise). It installs
+  the toolchain pinned in `mise.toml`: Node.js, [Bun](https://bun.sh) (package manager) and
+  [go-task](https://taskfile.dev).
 - The [1Password CLI](https://developer.1password.com/docs/cli/) (`op`). `.env` holds `op://`
   references to the secrets, never the values.
 - A Cloudflare account on the Workers Free plan.
@@ -54,9 +57,14 @@ profile read stops the run before anything is deleted.
 ## Setup and Deployment
 
 ```bash
+mise trust      # once per clone: lets Mise read mise.toml
+mise install    # installs the pinned toolchain
 task install    # also installs the Lefthook pre-commit hook
 task check      # lint, typecheck and tests, as CI runs them
 ```
+
+The Git hooks run `bunx` and `task`, so Git clients and IDEs outside an activated shell need
+Mise's shims directory (`~/.local/share/mise/shims`) on `PATH`.
 
 The account's identifier and server URL are Wrangler variables in `wrangler.jsonc` file.
 
